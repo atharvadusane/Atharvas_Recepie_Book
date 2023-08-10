@@ -204,7 +204,11 @@ body{
 .recepieSection h2{
     font-family: 'REM', sans-serif;
 }
-
+.instructions-head{
+    padding-left: 20px;
+    font-family: 'REM', sans-serif;
+    font-size: 25px;
+}
 
 
 

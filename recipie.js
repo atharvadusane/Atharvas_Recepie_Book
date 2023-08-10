@@ -9,7 +9,7 @@ const ingredients=document.querySelector('.ingredients')
 const measures=document.querySelector('.measures')
 const recepie_instructions=document.querySelector('.recepie-instructions')
 
-const pending=true
+console.log(instructions)
 
 searchBut.addEventListener('click',(e)=>{
     // recepieSection.innerHTML={}
@@ -19,54 +19,59 @@ searchBut.addEventListener('click',(e)=>{
     recepieHead.style.display="none"
     // recepieHead.innerHTML=``
 })
-// console.log(mealsInfo)
 
 const fetchAPI=async(param)=>{ 
-    recepieSection.innerHTML="<h2>Fetching recepies...</h2>"
+    // recepieSection.innerHTML="<h2>Fetching recepies...</h2>"
     const data= await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${param}`)
+    // recepieSection.innerHTML=null
     const response= await data.json()
     // console.log(response.meals)
-    recepieSection.innerHTML=""
     response.meals.forEach(meal => {
         let mealsInfo= document.createElement('div')
         mealsInfo.classList='mealsInfo'
-        recepieSection.appendChild(mealsInfo)
         mealsInfo.innerHTML=`
         <img class="mealImage" src="${meal.strMealThumb}"> 
         <span class="mealName">${meal.strMeal}</span>
         <span class="mealArea">${meal.strArea}</span>
         <span class="mealCategory">${meal.strCategory}</span>
         `
+        recepieSection.appendChild(mealsInfo)
         // console.log(meals.strMealThumb)
-        mealsInfo.addEventListener('click',function addinstructions(){
-            // append meal.strInstructions only if the " instructions " area is `empty` else empty it first and then add meal.strIngredients
-            if(instructions.innerHTML=``){
-                recepie_details.style.display='block'
+        mealsInfo.addEventListener('click',()=>{
+            // append meal.strInstructions only if the " instructions " area is `empty` else empty it first and then add meal.strIngredientsp
+            recepie_details.style.display='inline-block'
+            if(instructions.innerHTML=""){
                 // console.log(meal.strInstructions)
                 instructions.append(meal.strInstructions)   
+                // instructions.textContent=`
+                // <p>${meal.strInstructions}</p>
+                // `
             }
             else{
-                instructions.innerHTML=``
-                recepie_details.style.display='block'
+                instructions.innerHTML=""
                 instructions.append(meal.strInstructions)
+                console.log(instructions)
             }
         })
         closeBtn.addEventListener('click',()=>{
             recepie_details.style.display='none'
             instructions.innerHTML=``
+            ingredients.innerHTML="Ingredients"
         })
         ingredients.addEventListener('click',()=>{
-            if(ingredients.innerHTML="Ingredients"){
-                // fetchIngList(meal);
-                dispIngredients(meal)
-                ingredients.innerHTML="Back to instructions"
+            // if(ingredients.innerHTML="Ingredients"){
+            //     // fetchIngList(meal);
+            //     dispIngredients(meal)
+            //     ingredients.innerHTML="Back to instructions"
 
-            }else if(ingredients.innerHTML.includes="to"){
-                // ingredients.innerHTML=`
-                // <span>Ingredients</span>
-                // `
-                ingredients.innerHTML="Ingredients"
-            }
+            // }else if(ingredients.innerHTML.includes="to"){
+            //     // ingredients.innerHTML=`
+            //     // <span>Ingredients</span>
+            //     // `
+            //     ingredients.innerHTML="Ingredients"
+            // }
+            dispIngredients(meal)
+            ingredients.innerHTML="Back to instructions"
         })
     }); 
 }
